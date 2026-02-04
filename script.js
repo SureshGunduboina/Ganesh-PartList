@@ -86,15 +86,37 @@ function getFooterStyle() {
   };
 }
 
-function getHeaderText() { return document.getElementById("companyName").innerText; }
-function getFooterText() { return document.getElementById("pdfFooter").innerText; }
+function getFooterText() { 
+  return document.getElementById("pdfFooter").innerText; 
+}
 
-function getHeaderLogo() {
-  const imgEl = document.getElementById("companyLogo");
-  const logo = new Image();
-  logo.crossOrigin = "Anonymous";
-  logo.src = imgEl.src;
-  return logo;
+/* =======================
+   GET HEADER IMAGES
+======================= */
+function getHeaderImages(callback) {
+  const logoEl = document.getElementById("companyLogo");
+  const nameEl = document.getElementById("companyName");
+
+  const logoImg = new Image();
+  const nameImg = new Image();
+  let loaded = 0;
+
+  function checkLoad() {
+    loaded++;
+    if (loaded === 2) {
+      callback({ logoImg, nameImg });
+    }
+  }
+
+  // GitHub Pages requires crossOrigin
+  logoImg.crossOrigin = "Anonymous";
+  nameImg.crossOrigin = "Anonymous";
+
+  logoImg.src = logoEl.src;
+  nameImg.src = nameEl.src;
+
+  logoImg.onload = checkLoad;
+  nameImg.onload = checkLoad;
 }
 
 /* =======================
@@ -106,14 +128,11 @@ function downloadPDF() {
   const customerName = document.getElementById("customerName").value || "Customer";
   const customerNumber = document.getElementById("customerNumber").value || "";
   const date = document.getElementById("currentDate").innerText;
-
-  const headerText = getHeaderText();
   const footerText = getFooterText();
   const headerStyle = getHeaderStyle();
   const footerStyle = getFooterStyle();
-  const logoImg = getHeaderLogo();
 
-  const marginLeft = 20; // 2 cm
+  const marginLeft = 20;
 
   // Build table rows from HTML table
   const rows = [];
@@ -135,24 +154,29 @@ function downloadPDF() {
 
   const doc = new jsPDF({ unit: 'mm', format: [210, pdfHeight] });
 
-  function renderPDF(logoImg) {
+  // Load header images asynchronously
+  getHeaderImages(function(images) {
+    renderPDF(images.logoImg, images.nameImg, doc);
+  });
+
+  // =======================
+  // RENDER PDF FUNCTION
+  // =======================
+  function renderPDF(logoImg, nameImg, doc) {
     // Header background
     if (headerStyle.bg.some(c => c !== 0)) {
       doc.setFillColor(...headerStyle.bg);
       doc.rect(0, 0, 210, 20, "F");
     }
 
-    // Add logo
-    doc.addImage(logoImg, "PNG", marginLeft, 4, 20, 20);
+    // Add header images
+    doc.addImage(logoImg, "PNG", marginLeft, 4, 20, 20);         // Left logo
+    doc.addImage(nameImg, "PNG", marginLeft + 25, 4, 60, 20);    // Company name image
 
-    // Header text
-    doc.setFontSize(headerStyle.fontSize);
-    doc.setFont(undefined, "bold");
-    doc.setTextColor(...headerStyle.color);
-    doc.text(headerText, marginLeft + 25, 14);
-    doc.setDrawColor(0); // black line
-doc.setLineWidth(0.8);
-doc.line(marginLeft, 20, 190, 20);
+    // Draw line under header
+    doc.setDrawColor(0);
+    doc.setLineWidth(0.8);
+    doc.line(marginLeft, 26, 190, 26);
 
     // Customer info
     doc.setFontSize(11);
@@ -189,7 +213,7 @@ doc.line(marginLeft, 20, 190, 20);
         1: { cellWidth: 'auto', halign: 'left' },
         2: { halign: 'right' },
         3: { halign: 'right' },
-        4: { halign: 'right' } // Total column
+        4: { halign: 'right' }
       },
 
       didDrawPage: function(data) {
@@ -207,12 +231,5 @@ doc.line(marginLeft, 20, 190, 20);
     // Save PDF
     const safeName = customerName.replace(/\s+/g, "_");
     doc.save(`${safeName}_${date}.pdf`);
-  }
-
-  // Handle image load async-safe
-  if (logoImg.complete) {
-    renderPDF(logoImg);
-  } else {
-    logoImg.onload = () => renderPDF(logoImg);
   }
 }
