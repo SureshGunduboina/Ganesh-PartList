@@ -1,0 +1,163 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    padding: 15px;
+}
+
+/* HEADER */
+#pdfHeader {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: none;
+    color: #000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+}
+
+#companyLogo {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+}
+
+.header-right h2 {
+    font-size: 24px;
+}
+
+/* CUSTOMER INFO */
+#customerInfo {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    background: #e8f0ff;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#customerInfo input {
+    padding: 8px;
+    flex: 1;
+}
+
+.date {
+    align-self: center;
+}
+
+/* FORM */
+#form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#form input {
+    padding: 8px;
+    flex: 1;
+}
+
+#form button {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* TABLE */
+.table-wrapper {
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+td button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+}
+
+/* Minimize Sr No column */
+#partsTable th:first-child,
+#partsTable td:first-child {
+    width: 40px;
+}
+
+/* Give freed space to Part Name */
+#partsTable th:nth-child(2),
+#partsTable td:nth-child(2) {
+    width: auto;
+    text-align: left;
+}
+
+/* DOWNLOAD BUTTON */
+.download-btn {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+/* FOOTER */
+footer {
+    margin-top: 20px;
+    padding: 12px;
+    background: #222;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+}
+
+footer a {
+    color: #00d4ff;
+    text-decoration: none;
+}
+
+.footer-line {
+    margin: 4px 0;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    #customerInfo,
+    #form {
+        flex-direction: column;
+    }
+
+    .header-right h2 {
+        font-size: 20px;
+    }
+
+    #companyLogo {
+        height: 25px;
+    }
+}
