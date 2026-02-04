@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
             doc.addImage(nameImg, "PNG", marginLeft + 25, 4, 60, 20);
 
 // RIGHT SIDE ICON + VALUE ONLY (FINAL UPDATED)
-const rightX = pageWidth - 100;
+const rightX = pageWidth - 80;
 const iconSize = 4;
 
 const phoneImg = new Image();
@@ -248,3 +248,4 @@ doc.setFont("helvetica","normal");
     };
 
 });
+
