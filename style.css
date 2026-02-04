@@ -17,17 +17,31 @@ body {
 .header-left {
     display: flex;
     align-items: center;
-    margin-right: 12px;
+    gap: 10px;
+}
+
+#companyLogo, #companyName {
+    height: auto;
+    max-height: 80px;
 }
 
 #companyLogo {
-    height: 30px;
+    height: 100px;
     width: auto;
-    object-fit: contain;
+}
+#companyName {
+    height: 50px;
+    width: auto;
 }
 
-.header-right h2 {
-    font-size: 24px;
+.header-container {
+    background: white;           
+    padding: 15px 20px;          
+    border-radius: 10px;         
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    max-width: 800px;            
+    margin: 0 auto 15px auto;    
+    box-sizing: border-box;
 }
 
 /* CUSTOMER INFO */
@@ -38,6 +52,7 @@ body {
     background: #e8f0ff;
     padding: 10px;
     border-radius: 8px;
+    flex-wrap: wrap;
 }
 
 #customerInfo input {
@@ -151,10 +166,6 @@ footer a {
     #customerInfo,
     #form {
         flex-direction: column;
-    }
-
-    .header-right h2 {
-        font-size: 20px;
     }
 
     #companyLogo {
